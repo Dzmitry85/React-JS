@@ -1,28 +1,84 @@
-import logo from './logo.svg';
-import './App.css';
+import { timeout } from 'q';
+import React,{useEffect} from 'react';
+import { render } from 'react-dom';
+
+
+const styles = {
+  display: 'flex',
+  
+  flexDirection: 'column',
+  fontFamily: 'sans-serif',
+};
+
+const inputStyles={
+  display: 'flex',
+  justifyContent: 'center',
+  paddingBottom: '10px'
+};
+
+class MessageList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      vals: []
+    }
+    this._refs = {};
+  }
+
+  onChange = () => {
+    this.setState({
+      vals: Object.keys(this._refs).map(key => this._refs[key] && this._refs[key].value)
+      
+     });
+   
+  }
+  
+  onClickButton=()=>{
+    setTimeout(() => {
+      
+      alert(`${this.state.vals[1]}, Ваш текст оптравлен`)
+    }, 1000);
+ 
+    
+  }
 
 
 
-function App(props) {
+
+  render() {
+    return (
+      <div style={styles}>
+        {/* AllVals: {this.state.vals.join(', ')} */}
+        <div style={styles} ><Text _ref={ref => this._refs['a'] = ref} onChange={this.onChange} />Текст</div>
+        <div style={inputStyles}><Name _ref={ref => this._refs[''] = ref} onChange={this.onChange} />Имя</div>
+   
+        <button onClick={this.onClickButton}  >Отправить сообщение</button>
+
+      </div>
+    )
+  }
+};
+const Text = ({_ref, onChange}) => (
+  <input ref={_ref} onChange={onChange} type="text" />
+);
+
+const Name = ({ _ref,  onChange }) => (
+  <input ref={_ref} onChange={onChange} type="text" />
+);
+
+
+
+
+
+
+
+function App(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {/* <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          // href="https://reactjs.org"
-          // target="_blank"
-          // rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
-        <h3 className='txt'>Сообщение: {props.name} </h3>
-      </header>
+    <div>
+    <MessageList
+    />
     </div>
-  );
-}
 
+  )
+};
 export default App;
